@@ -21,13 +21,13 @@ import org.springframework.web.client.RestTemplate;
 public class ConsumerControllerClient {
 	
 	
-	/*@Autowired
+	@Autowired
 	private DiscoveryClient discoveryClient;
-	*/
+	
 
 	
-	@Autowired
-	private LoadBalancerClient loadBalancer;
+	/*@Autowired
+	private LoadBalancerClient loadBalancer;*/
 	
 	public void getEmployee() throws RestClientException, IOException {
 	
@@ -37,15 +37,24 @@ public class ConsumerControllerClient {
 		ServiceInstance serviceInstance=instances.get(0);
 		*/
 		
-		ServiceInstance serviceInstance=loadBalancer.choose("employee-producerAnil");
+		
+		 /*This code is related to load balancing*/
+		/*//ServiceInstance serviceInstance=loadBalancer.choose("employee-producerAnil");
 		
 		System.out.println(serviceInstance.getUri());
 		
 		String baseUrl=serviceInstance.getUri().toString();
-		
-		
 		baseUrl=baseUrl+"/employee";
+		*/
 		
+		List<ServiceInstance> instances = discoveryClient.getInstances("EMPLOYEE-ZUUL-SERVICE");
+		ServiceInstance serviceInstance = instances.get(0);
+
+		String baseUrl = serviceInstance.getUri().toString();
+
+		baseUrl = baseUrl + "/producer/employee";
+		
+			
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response=null;
 		try{

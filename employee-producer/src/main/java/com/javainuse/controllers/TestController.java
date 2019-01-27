@@ -20,8 +20,8 @@ public class TestController {
 		emp.setEmpId("1");
 		emp.setSalary(99999);
 		
-		if(emp.getName().equalsIgnoreCase("Krishna"))
-			throw new RuntimeException();
+		/*if(emp.getName().equalsIgnoreCase("Krishna"))
+			throw new RuntimeException();*/
 
 		return emp;
 	}
